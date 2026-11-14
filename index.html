@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>TimerCube – Bấm giờ & Scramble theo chuẩn WCA</title>
-<meta name="description" content="Timer speedcubing với scramble và quy tắc thời gian theo WCA, có cube 3D.">
+<meta name="description" content="Timer speedcubing với scramble và quy tắc thời gian theo WCA, có hình cube 2D.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230e7c7b'/%3E%3Cpath d='M0 16h32M16 0v32' stroke='%23fff' stroke-width='3'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -40,7 +40,7 @@
   <aside>
     <div class="cube-box" id="cubeBox">
       <div id="scene"><div id="cube"></div></div>
-      <small id="cubeNote">Kéo để xoay cube</small>
+      <small id="cubeNote">Cube 2D theo scramble</small>
     </div>
     <dl class="stats" id="stats"></dl>
     <ol class="times" id="times"></ol>
@@ -53,14 +53,14 @@
     <label class="row"><span>Thời gian quan sát 15 giây (WCA)</span><input type="checkbox" id="sInspect"></label>
     <label class="row"><span>Giữ Space trước khi bắt đầu (ms)</span><input type="number" id="sHold" min="0" max="1500" step="50"></label>
     <label class="row"><span>Ẩn thời gian khi đang giải</span><input type="checkbox" id="sHide"></label>
-    <label class="row"><span>Hiện cube 3D</span><input type="checkbox" id="s3d"></label>
+    <label class="row"><span>Hiện cube dạng 2D</span><input type="checkbox" id="sCube"></label>
     <label class="row"><span>Cỡ chữ scramble</span><input type="range" id="sSize" min="16" max="34"></label>
     <div class="row end"><button type="button" id="sClear" class="btn sm danger">Xoá toàn bộ kết quả</button><button class="btn sm">Đóng</button></div>
   </form>
 </dialog>
 
 <script src="js/scramble.js"></script>
-<script src="js/cube3d.js"></script>
+<script src="js/cube2d.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

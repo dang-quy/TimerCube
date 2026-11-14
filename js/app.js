@@ -1,7 +1,12 @@
 (()=>{
   const $=id=>document.getElementById(id),KEY='timercube.v1',TYPES=Scramble.TYPES;
-  const D={theme:null,type:'333',inspect:true,hold:300,hide:false,show3d:true,size:24,solves:[]};
-  const S=Object.assign({},D,(()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}})());
+  const D={theme:null,type:'333',inspect:true,hold:300,hide:false,showCube:true,size:24,solves:[]};
+  const S=Object.assign({},D,(()=>{try{
+    const saved=JSON.parse(localStorage.getItem(KEY))||{};
+    if(saved.showCube===undefined&&saved.show3d!==undefined)saved.showCube=saved.show3d;
+    delete saved.show3d;
+    return saved;
+  }catch(e){return{}}})());
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 
   // Định dạng & thống kê (WCA: hiển thị cắt xuống 0,01s; trung bình làm tròn 0,01s)
@@ -31,15 +36,17 @@
     const request=++scrambleRequest;
     const t=TYPES.find(x=>x.id===S.type);
     scr='';$('scramble').textContent='Đang tạo scramble...';
-    $('cubeBox').style.display=S.show3d?'':'none';
-    $('cube').innerHTML='';
-    if(t.n)$('cubeNote').textContent='Kéo để xoay cube';
-    else $('cubeNote').textContent='Xem 3D hiện hỗ trợ cube NxN (2x2 – 7x7)';
+    $('cubeBox').style.display=S.showCube?'':'none';
+    if(t.n)$('cubeNote').textContent='Cube 2D theo scramble';
+    else{
+      $('cubeNote').textContent='Hình 2D hiện hỗ trợ cube NxN (2x2 – 7x7)';
+      $('cube').replaceChildren();
+    }
     try{
       const result=await t.gen();
       if(request!==scrambleRequest||t.id!==S.type)return;
       scr=result;$('scramble').textContent=scr;
-      if(t.n)Cube3D.set(t.n,scr);
+      if(t.n)Cube2D.set(t.n,scr);
     }catch(e){
       if(request!==scrambleRequest)return;
       console.error('Không thể tạo scramble bằng cubing.js:',e);
@@ -115,10 +122,11 @@
 
   // Cài đặt
   const dlg=$('dlg');
-  $('settingsBtn').onclick=()=>{$('sInspect').checked=S.inspect;$('sHold').value=S.hold;$('sHide').checked=S.hide;$('s3d').checked=S.show3d;$('sSize').value=S.size;dlg.showModal()};
+  $('settingsBtn').onclick=()=>{$('sInspect').checked=S.inspect;$('sHold').value=S.hold;$('sHide').checked=S.hide;$('sCube').checked=S.showCube;$('sSize').value=S.size;dlg.showModal()};
   dlg.addEventListener('close',()=>{
-    S.inspect=$('sInspect').checked;S.hold=Math.max(0,+$('sHold').value||0);S.hide=$('sHide').checked;S.show3d=$('s3d').checked;S.size=+$('sSize').value;
-    save();$('cubeBox').style.display=S.show3d?'':'none';render();hint();
+    S.inspect=$('sInspect').checked;S.hold=Math.max(0,+$('sHold').value||0);S.hide=$('sHide').checked;S.showCube=$('sCube').checked;S.size=+$('sSize').value;
+    delete S.show3d;
+    save();$('cubeBox').style.display=S.showCube?'':'none';render();hint();
   });
   $('sSize').oninput=e=>$('scramble').style.setProperty('--ss',e.target.value+'px');
   $('sClear').onclick=()=>{if(confirm('Xoá toàn bộ kết quả đã lưu?')){S.solves=[];save();render();T.textContent='0.00'}};
