@@ -120,6 +120,18 @@ git push
 - **`Repository not found`**: kiểm tra URL, tên tài khoản, tên repository và quyền truy cập.
 - **`[rejected] main -> main (non-fast-forward)`**: nhánh trên GitHub có commit mới mà máy của bạn chưa có. Nếu muốn giữ cả thay đổi trên GitHub và máy, tích hợp lịch sử remote trước rồi push lại:
 
+  Trước tiên, `git status` để xem thay đổi trên máy. `git pull --rebase` sẽ bị từ chối nếu còn thay đổi chưa commit. Nếu muốn giữ các thay đổi đó, kiểm tra danh sách file rồi commit chúng:
+
+  ```powershell
+  git status
+  git add <duong-dan-file>
+  git commit -m "Mo ta thay doi"
+  ```
+
+  Lặp lại `git add` cho các file cần đưa vào commit. Chỉ dùng `git add .` nếu đã kiểm tra và muốn đưa tất cả thay đổi vào commit.
+
+  Sau đó đồng bộ với GitHub và push:
+
   ```powershell
   git pull --rebase origin main
   git push -u origin main
