@@ -132,6 +132,7 @@ main{
   backdrop-filter:blur(20px);
   -webkit-backdrop-filter:blur(20px);
   touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
   cursor:pointer;
 }
 .stage::before{
