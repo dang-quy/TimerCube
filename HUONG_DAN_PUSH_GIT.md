@@ -118,6 +118,23 @@ git push
 - **`remote origin already exists`**: dùng `git remote -v` để kiểm tra; dùng `git remote set-url origin <URL>` nếu cần đổi URL.
 - **`src refspec main does not match any`**: chưa có commit hoặc nhánh chưa tên `main`. Tạo commit trước, rồi chạy `git branch -M main`.
 - **`Repository not found`**: kiểm tra URL, tên tài khoản, tên repository và quyền truy cập.
+- **`[rejected] main -> main (non-fast-forward)`**: nhánh trên GitHub có commit mới mà máy của bạn chưa có. Nếu muốn giữ cả thay đổi trên GitHub và máy, tích hợp lịch sử remote trước rồi push lại:
+
+  ```powershell
+  git pull --rebase origin main
+  git push -u origin main
+  ```
+
+  Nếu có conflict, mở các file được Git báo và chỉnh nội dung, sau đó chạy:
+
+  ```powershell
+  git status
+  git add <duong-dan-file-da-giai-quyet>
+  git rebase --continue
+  git push -u origin main
+  ```
+
+  Nếu muốn hủy thao tác rebase đang dở, chạy `git rebase --abort`. Nếu Git báo hai lịch sử không liên quan, dừng lại và kiểm tra nội dung hai phía trước khi chọn cách hợp nhất. Không dùng `git push --force` để xử lý lỗi này nếu chưa chắc chắn, vì có thể ghi đè commit trên GitHub.
 - **Push bị từ chối vì remote có commit sẵn**: repository GitHub có thể đã được tạo kèm README hoặc file khác. Nếu chưa có dữ liệu cần giữ trên GitHub, cách đơn giản nhất là tạo repository mới và để trống trước khi push. Nếu remote đã có nội dung cần giữ, hãy đồng bộ lịch sử trước; không ghi đè bằng force push khi chưa hiểu rõ ảnh hưởng.
 
 ## Triển khai GitHub Pages
